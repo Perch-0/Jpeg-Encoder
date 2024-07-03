@@ -169,7 +169,7 @@ huffmanTables GenHuffTables(std::vector<unsigned char> data) {
 
 
 void codesize(unsigned int* freq, unsigned char* code_size, int* others) {
-    ///Figure K.1 – Procedure to find Huffman code sizes
+    ///Figure K.1 â€“ Procedure to find Huffman code sizes
     int Curlow = 257;
     int CurNextLow = 257;
     /**Find V1 for least value of
@@ -229,7 +229,7 @@ void codesize(unsigned int* freq, unsigned char* code_size, int* others) {
 
 }
 void Count_BITS (unsigned char* code_size, unsigned char* BITS) {
-    ///Figure K.2 – Procedure to find the number of codes of each size
+    ///Figure K.2 â€“ Procedure to find the number of codes of each size
     for (int i=0; i!=257; i++) {
         if (code_size[i]!=0) {
             BITS[code_size[i]]++;
@@ -239,7 +239,7 @@ void Count_BITS (unsigned char* code_size, unsigned char* BITS) {
     return;
 }
 void Adjust_BITS (unsigned char* BITS) {
-    ///Figure K.3 – Procedure for limiting code lengths to 16 bits
+    ///Figure K.3 â€“ Procedure for limiting code lengths to 16 bits
 
     int I=32;
     for (;;) {
@@ -285,7 +285,7 @@ void Adjust_BITS (unsigned char* BITS) {
 
 }
 void Sort_input (unsigned char* code_size, unsigned char* HUFFVAL) {
-    ///Figure K.4 – Sorting of input values according to code size
+    ///Figure K.4 â€“ Sorting of input values according to code size
     int K = 0;
     for (int I = 1; !(I>32); I++) {
         for (int J = 0; !(J>255); J++) {
@@ -298,7 +298,7 @@ void Sort_input (unsigned char* code_size, unsigned char* HUFFVAL) {
     return;
 }
 void Gen_size_table (unsigned char* BITS, unsigned char* HUFFSIZE, int& LASTK) {
-    ///Figure C.1 – Generation of table of Huffman code sizes
+    ///Figure C.1 â€“ Generation of table of Huffman code sizes
     int K = 0;
     int I = 1;
     int J = 1;
@@ -320,7 +320,7 @@ void Gen_size_table (unsigned char* BITS, unsigned char* HUFFSIZE, int& LASTK) {
     }
 }
 void Gen_code_table (unsigned char* HUFFSIZE, uint32_t* HUFFCODE) {
-    ///Figure C.2 – Generation of table of Huffman codes
+    ///Figure C.2 â€“ Generation of table of Huffman codes
     int K = 0;
     int CODE = 0;
     int SI = HUFFSIZE[0];
