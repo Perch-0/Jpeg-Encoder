@@ -3,6 +3,8 @@
 #include <vector>
 #include <bitset>
 #include "RLE.h"
+
+
 std::vector<unsigned char> GetRunlengthSize (matrixClass value) {
 
     std::vector<unsigned char> RL = Runlength(value);
@@ -122,5 +124,6 @@ unsigned char calcSize(int Value)
         Value /= 2;
         ValSize++;
     }
+    return ValSize;
     //if (ValSize==0) {ValSize++;}
 }

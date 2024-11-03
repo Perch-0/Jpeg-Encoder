@@ -4,7 +4,7 @@
 #include <string>
 #include <algorithm>
 #include <vector>
-
+#include <cstdint>
 class huffmanTables {
 public:
     uint32_t* EHUFCO;

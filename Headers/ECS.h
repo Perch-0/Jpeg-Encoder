@@ -1,6 +1,6 @@
 #ifndef ECS_H
 #define ECS_H
-
+#include <cstdint>
 class ECSData {
     public:
         std::vector<int> data;

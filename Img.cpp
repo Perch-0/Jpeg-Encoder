@@ -88,7 +88,7 @@ void createImg(unsigned char* Pixeldata, int width, int height, int length, stri
 ///------------------------------------------------------------------------------------------------------------------------
 int main()
 {
-    FILE* image = fopen("C:/Users/elev/Documents/256x128SingleDots.bmp", "rb");
+    FILE* image = fopen("TestingImages\\256x128SingleDots.bmp", "rb");
     cout << fixed << setprecision(0);
     unsigned char fileheader[14];
     int width = 0;
@@ -99,7 +99,7 @@ int main()
     fread(fileheader, sizeof(unsigned char), 14, image);
 
     offset = ReadFileheader(fileheader, BMP::kOffset);
-    unsigned char info[offset-14];
+    unsigned char* info = new unsigned char[offset-14];
     fread(info, sizeof(unsigned char), offset-14, image);
     width = ReadFileheader(info, BMP::kWidth, -14);
     height = ReadFileheader(info, BMP::kHeight, -14);
@@ -1052,7 +1052,7 @@ vector <matrixClass> SplitBlocks(matrixClass A, int SubSampleFac_H, int SubSampl
         //\operatorname{mod}\left(\operatorname{floor}\left(\frac{x}{H}\right),V\right)+\operatorname{floor}\left(\frac{x}{H\cdot V\cdot r_{1}}\right)\cdot V
         int H = SubSampleFac_H;
         int V = SubSampleFac_V;
-        int g = (int)floor(i)%H+((int)floor(i/(H*V))%rows)*H;
+        int g = (int)floor(i)%H+((int)floor(i/(H*V))%(rows/H))*H;
 
         int f = ((int)floor(i/H)%V)*rows;
 
@@ -1072,8 +1072,8 @@ vector <matrixClass> SplitBlocks(matrixClass A, int SubSampleFac_H, int SubSampl
 
        /*
         f=\operatorname{mod}\left(\operatorname{floor}\left(\frac{x}{H}\right),V\right)\cdot r_{1}
-        g=\operatorname{mod}\left(\operatorname{floor}\left(x\right),H\right)+\left(\operatorname{mod}\left(\operatorname{floor}\left(\frac{x}{H\cdot V}\right),r_{1}\right)\cdot H\right)
-        k=\operatorname{floor}\left(\frac{x}{r_{1}\cdot V}\right)\cdot r_{1}
+        g=\operatorname{mod}\left(\operatorname{floor}\left(x\right),H\right)+\left(\operatorname{mod}\left(\operatorname{floor}\left(\frac{x}{H\cdot V}\right),\frac{r_{1}}{H}\right)\cdot H\right)
+        k=\operatorname{floor}\left(\frac{x}{r_{1}\cdot V}\right)\cdot r_{1}\cdot V
         */
     }
 
@@ -1302,7 +1302,7 @@ matrixClass ColorCoefficients () {
     float Rz = 1-(Rx+Ry);
     float Gz = 1-(Gx+Gy);
     float Bz = 1-(Bx+By);
-    int Y = 1.0; // maximum luminance
+    float Y = 1.0; // maximum luminance
     //x + y + z = 1;
     float Xw = Wx / Wy; // from X = Y * x / y
     float Zw = Wz / Wy; // from Z = Y * z / y
@@ -1343,7 +1343,7 @@ matrixClass RGBtoYCbCr(int r, int g, int b, matrixClass Correction) {
                          {(Kr/(2*(1-Kb)))*(-1),  (Kg/(2*(1-Kb)))*(-1), 0.5},
                          {0.5,            (Kg/(2*(1-Kr)))*(-1), (Kb/(2*(1-Kr)))*(-1)}};
     matrixClass rgb(3,1);
-    rgb.matrix = {{r},{g},{b}};
+    rgb.matrix = {{(double)r},{(double)g},{(double)b}};
     matrixClass YCbCr = Matrix_product(colormatrix, rgb);
 
     //YCbCr.matrix[1][0] += 128;
