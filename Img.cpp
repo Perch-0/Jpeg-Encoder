@@ -1,6 +1,7 @@
 #include <iostream>
 #include <fstream>
 #include <iomanip>
+#include <filesystem>
 #include "matrix.h"
 #include "huffman.h"
 #include "RLE.h"
@@ -86,9 +87,43 @@ void createImg(unsigned char* Pixeldata, int width, int height, int length, stri
 ///------------------------------------------------------------------------------------------------------------------------
 ///MAIN_START
 ///------------------------------------------------------------------------------------------------------------------------
-int main()
+int main(int argc, char* argv[])
 {
-    FILE* image = fopen("TestingImages\\256x128SingleDots.bmp", "rb");
+    int QualityFactor = 80;
+    if (argc > 3) {
+        cout << "Too many arguments given\n";
+        cout << argv[0] << " \"filepath\" \"quality factor(default=80)\"\n";
+        return EXIT_FAILURE;
+    }
+    if (argc == 1) {
+        cout << "No arguments given\n";
+        cout << argv[0] << " \"filepath\" \"quality factor(default=80)\"\n";
+        return EXIT_FAILURE;
+    }
+    if (argc > 1) {
+
+        filesystem::path filepath(argv[1]);
+        if (!filesystem::exists(filepath)) {
+            cout << "File doesn't exist\n";
+            cout << "Filepath: " << filepath << endl;
+            return EXIT_FAILURE;
+        }
+        
+        
+    }
+    if (argc > 2) {
+        QualityFactor = stoi(argv[2]);
+        if (QualityFactor > 100 || QualityFactor < 0) {
+            cout << "Quality factor must be between 0 and 100\n Quality factor: " << QualityFactor << endl; 
+            return EXIT_FAILURE;
+        }
+    }
+    FILE* image = fopen(argv[1], "rb");
+    if (image == NULL) {
+        cout << "image ptr is NULL\n";
+        return EXIT_FAILURE;
+    }
+    //FILE* image = fopen("TestingImages\\256x128SingleDots.bmp", "rb");
     cout << fixed << setprecision(0);
     unsigned char fileheader[14];
     int width = 0;
@@ -158,7 +193,7 @@ int main()
 
 
 
-    int QualityFactor = 80;
+    
     cout << "DCT" << "\n";
     for (int i=0; i<ChannelY.size(); i++) {
         ChannelY[i] = DCT(ChannelY[i]);
